@@ -12,7 +12,7 @@
 
     <footer>
       <Button type="outline">
-        <router-link :to="`/poster/${id}`" :name="name"
+        <router-link :to="`/poster/${id}`" :poster="{ name }"
           ><v-icon name="address-card" scale="1.5" class="mr"></v-icon>See the
           Poster &rarr;</router-link
         >
@@ -41,11 +41,20 @@ export default {
     abstract: String,
     img: String,
     topic: String,
+    poster: Object,
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@mixin padding {
+  padding: 0.75rem 1rem;
+
+  @media (min-width: 1200px) {
+    padding: 1.5rem 2rem;
+  }
+}
+
 article {
   position: relative;
   width: 100%;
@@ -58,7 +67,7 @@ article {
 }
 
 header {
-  padding: 1.5rem 2rem;
+  @include padding;
   height: calc(1rem + (1rem * 1.5) + (1.2rem * 3.3) + 3rem);
 }
 
@@ -189,21 +198,6 @@ h2 {
 }
 
 footer {
-  padding: 1.5rem 2rem;
-
-  // a {
-  //   display: inline-block;
-  //   color: var(--light);
-  //   padding: 0.25rem 0.5rem;
-  //   border: 1px solid;
-  //   border-radius: var(--radius);
-  //   text-decoration: none;
-  //   transition: color 0.2s, background-color 0.2s;
-  //   font-weight: 700;
-  //   &:hover {
-  //     background-color: var(--light);
-  //     color: var(--dark);
-  //   }
-  // }
+  @include padding;
 }
 </style>

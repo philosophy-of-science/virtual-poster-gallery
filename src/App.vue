@@ -6,10 +6,15 @@
 </template>
 
 <script>
+import db from '@/db';
 import NavBar from '@/components/NavBar.vue';
 
 export default {
   components: { NavBar },
+
+  created() {
+    console.log(db);
+  },
 };
 </script>
 
@@ -27,7 +32,7 @@ export default {
   --lighter: #dafcf6;
   --lightest: #f0fcfa;
   --red: #af1f24;
-  --green: #5bb028;
+  --green: #0d550a;
   --green-light: #8afc47;
   --border-color: #b6fdf186;
 
@@ -81,5 +86,17 @@ html {
 
 .mr {
   margin-right: 0.25em;
+}
+
+.ml {
+  margin-left: 0.25em;
+}
+
+.mb {
+  margin-bottom: 1rem;
+}
+
+.mt {
+  margin-top: 1rem;
 }
 </style>

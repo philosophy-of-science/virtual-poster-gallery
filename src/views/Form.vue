@@ -3,16 +3,14 @@
     <h2>Submit Your Poster</h2>
     <div class="grid">
       <form v-on:submit.prevent="onSubmit">
-        <label for="name">Authors</label>
+        <label for="name">Author(s)</label>
         <input type="text" id="name" v-model="name" required />
-        <label for="email">Email <span class="badge">Private</span></label>
-        <input type="email" id="email" v-model="email" />
         <label for="title">Title</label>
-        <input type="text" id="title" v-model="title" />
+        <input type="text" id="title" v-model="title" required />
         <label for="abstract">abstract</label>
-        <textarea id="abstract" v-model="abstract" />
+        <textarea id="abstract" v-model="abstract" required />
         <label for="topic">Topic</label>
-        <select id="topic" v-model="selected">
+        <select id="topic" v-model="selected" required>
           <!-- inline object literal -->
           <option disabled value="">Please select one</option>
           <option v-for="(topic, i) in topics" :key="i">{{ topic }}</option>
@@ -25,6 +23,9 @@
           accept="image/*"
           @change="filesChange($event.target.name, $event.target.files)"
         />
+        <Button type="color" class="submit-button">
+          <button>Submit</button></Button
+        >
       </form>
       <div class="preview">
         <Card
@@ -33,6 +34,7 @@
           :abstract="abstract || 'Poster abstract...'"
           :img="previewImage || ''"
           :topic="selected || 'Philosophy of science'"
+          :poster="{ name, title }"
         />
       </div>
     </div>
@@ -41,17 +43,19 @@
 
 <script>
 import Card from '@/components/Card.vue';
+import Button from '@/components/Button.vue';
+import db from '@/db';
 import topics from '@/topics';
 
 export default {
   components: {
     Card,
+    Button,
   },
 
   data() {
     return {
       name: '',
-      email: '',
       title: '',
       abstract: '',
       selected: '',
@@ -70,6 +74,21 @@ export default {
       };
       reader.readAsDataURL(file[0]);
     },
+
+    async onSubmit() {
+      const supabase = db;
+      console.log(supabase);
+      const { data, error } = await supabase.from('posters').insert([
+        {
+          name: this.name,
+          email: this.email,
+          title: this.title,
+          abstract: this.abstract,
+          topic: this.selected,
+        },
+      ]);
+      console.log(data, error);
+    },
   },
 };
 </script>
@@ -85,13 +104,18 @@ h2 {
   // justify-content: space-between;
 }
 
+.preview {
+}
+</style>
+
+<style lang="scss">
 label {
   display: block;
   text-transform: uppercase;
   font-size: max(0.8rem, 14px);
   font-weight: 700;
   padding-left: 0.75rem;
-  margin-bottom: 0.15em;
+  margin-bottom: 0.25em;
 
   & ~ label {
     margin-top: 1rem;
@@ -122,11 +146,6 @@ textarea {
   height: 25ch;
 }
 
-.preview {
-}
-</style>
-
-<style lang="scss">
 .badge {
   background: red;
   border-radius: var(--radius);
@@ -137,6 +156,10 @@ textarea {
   font-size: 0.8em;
   letter-spacing: 0.5px;
   vertical-align: middle;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+}
+
+.submit-button {
+  margin-top: 1rem;
 }
 </style>

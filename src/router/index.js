@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 import Form from '../views/Form.vue';
 import Admin from '../views/Admin.vue';
 import Poster from '../views/Poster.vue';
+import Auth from '../views/Auth.vue';
 
 Vue.use(VueRouter);
 
@@ -25,7 +26,26 @@ const routes = [
   },
   {
     path: '/poster/:id',
+    name: 'Poster',
     component: Poster,
+  },
+  {
+    path: '/sign-up',
+    name: 'Sign Up',
+    component: Auth,
+    props: { type: 'signUp' },
+  },
+  {
+    path: '/sign-in',
+    name: 'Sign In',
+    component: Auth,
+    props: { type: 'signIn' },
+  },
+  {
+    path: '/reset',
+    name: 'reset',
+    component: Auth,
+    props: { type: 'reset' },
   },
 ];
 

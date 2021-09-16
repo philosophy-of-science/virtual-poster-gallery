@@ -40,6 +40,9 @@ export default {
 header {
   margin: 1rem 0 3rem;
 }
+</style>
+
+<style lang="scss">
 .grid {
   margin: 0 auto;
   display: grid;
@@ -47,5 +50,9 @@ header {
   row-gap: 3rem;
   grid-template-columns: repeat(auto-fit, minmax(20.65rem, 1fr));
   justify-content: center;
+}
+
+.link {
+  color: inherit;
 }
 </style>

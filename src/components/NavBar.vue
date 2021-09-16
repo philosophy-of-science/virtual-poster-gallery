@@ -24,10 +24,10 @@
       </div>
       <div class="right">
         <Button type="outline">
-          <a href="http://philsci.org">Join</a>
+          <router-link to="/sign-in">Sign in</router-link>
         </Button>
-        <Button type="color">
-          <a href="" class="link">Donate</a>
+        <Button type="color" class="sign-up">
+          <router-link to="/sign-up" class="link">Sign up</router-link>
         </Button>
       </div>
     </nav>
@@ -119,5 +119,9 @@ a {
     border-radius: 50%;
     background-color: var(--teal-light);
   }
+}
+
+.sign-up {
+  margin-left: 1em;
 }
 </style>

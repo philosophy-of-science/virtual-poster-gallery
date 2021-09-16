@@ -1,26 +1,32 @@
 <template>
-  <div class="container">
+  <section class="container">
     <article class="">
       <header class="image-container" :class="{ expanded: expand }">
-        <img :src="posterInfo.img" :alt="posterInfo.title" />
-        <button @click="expand = !expand">
-          <v-icon name="expand" scale="2" />
+        <button @click="expand = !expand" v-on:keyup.esc="onEsc">
+          <img :src="posterInfo.img" :alt="posterInfo.title" />
+          <span v-show="!expand">
+            <v-icon name="expand-alt" scale="2" />
+          </span>
         </button>
       </header>
-      <div>
-        <p class="topic">
-          <v-icon name="hashtag" scale=".75" class="mr" />{{ posterInfo.topic }}
-        </p>
-        <h2>
-          {{ posterInfo.title }}
-        </h2>
-        <p class="author">{{ posterInfo.name }}</p>
-        <small>Abstract</small>
-        <p>{{ posterInfo.abstract }}</p>
-        <p>{{ posterInfo.topic }}</p>
+      <div class="grid">
+        <div class="left">
+          <p class="topic">
+            <v-icon name="hashtag" scale=".75" class="mr" />{{
+              posterInfo.topic
+            }}
+          </p>
+          <h2>
+            {{ posterInfo.title }}
+          </h2>
+          <p class="author">{{ posterInfo.name }}</p>
+        </div>
+        <div class="abstract">
+          <p>{{ posterInfo.abstract }}</p>
+        </div>
       </div>
     </article>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -33,23 +39,38 @@ export default {
     };
   },
 
+  props: {
+    poster: Object,
+  },
+
   computed: {
     posterInfo() {
-      const data = testData;
-      const result = data.find((poster) => {
-        console.log(poster.id, this.$route.params.id);
-        return poster.id === +this.$route.params.id;
-      });
-      console.log(result);
-      return result;
+      if (this.$route.params.id) {
+        const data = testData;
+        const result = data.find((poster) => {
+          console.log(poster.id, this.$route.params.id);
+          return poster.id === +this.$route.params.id;
+        });
+        return result;
+      }
+      return null;
+    },
+  },
+
+  methods: {
+    onEsc() {
+      this.expand = false;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.grid {
+  margin-top: 3rem;
+}
+
 .topic {
-  margin-top: 2rem;
   font-size: 0.8rem;
   border-radius: var(--radius);
   background-color: var(--dark);
@@ -71,9 +92,23 @@ h2 {
 
 .image-container {
   position: relative;
-  padding: 1rem;
   background: var(--lighter);
   border-radius: var(--radius);
+
+  span {
+    position: absolute;
+    height: 3rem;
+    width: 3rem;
+    bottom: 50%;
+    right: 0;
+    transform: translate(50%, 50%);
+    background: var(--teal);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5em;
+    border-radius: 50%;
+  }
 }
 
 .expanded {
@@ -83,6 +118,11 @@ h2 {
   top: 0;
   left: 0;
   transition: height 0.2s;
+  z-index: 10;
+
+  button {
+    cursor: zoom-out;
+  }
 
   img {
     display: block;
@@ -96,32 +136,53 @@ h2 {
 }
 
 img {
-  width: 100%;
+  width: auto;
   height: auto;
+  max-height: 50vh;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
   box-shadow: var(--shadow-on-bg);
 }
 
-small {
-  text-transform: uppercase;
-  color: var(--dark);
+button {
+  padding: 1rem;
+  border: none;
+  background: none;
+  display: block;
+  height: 100%;
+  width: 100%;
+  cursor: zoom-in;
 }
 
-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0 0 0 / 0.5);
-  backdrop-filter: blur(2px);
-  color: var(--lightest);
-  cursor: pointer;
-  border: none;
-
-  height: 2rem;
-  width: 2rem;
-  position: absolute;
-  bottom: 2rem;
-  right: 2rem;
+.abstract {
+  margin-top: 1.25rem;
+  position: relative;
+  background-color: var(--lightest);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
+  border: 1px solid;
+
+  p {
+    position: relative;
+    border-radius: var(--radius);
+    background-color: var(--lightest);
+    padding: 0.5rem 0.75rem;
+  }
+
+  &::before {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    content: 'ABSTRACT';
+    position: absolute;
+    // background: var(--dark);
+    text-transform: uppercase;
+    color: var(--dark);
+    border: 1px solid;
+    padding: 0.25em;
+    border-radius: var(--radius);
+    left: 0.75rem;
+    top: -1.35rem;
+  }
 }
 </style>

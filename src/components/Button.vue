@@ -33,9 +33,9 @@ div {
     box-shadow: var(--shadow-on-dark);
   }
 
-  & ~ div {
-    margin-left: 0.5em;
-  }
+  // & ~ div {
+  //   margin-left: 0.5em;
+  // }
 }
 
 .color {
