@@ -8,9 +8,11 @@ import 'vue-awesome/icons/exclamation-circle';
 import 'vue-awesome/icons/eye';
 import 'vue-awesome/icons/eye-slash';
 import 'vue-awesome/icons/spinner';
+import 'vue-awesome/icons/times';
 
 import App from './App.vue';
 import router from './router';
+import store from './store';
 
 Vue.component('v-icon', Icon);
 
@@ -18,5 +20,6 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
+  store,
   render: (h) => h(App),
 }).$mount('#app');

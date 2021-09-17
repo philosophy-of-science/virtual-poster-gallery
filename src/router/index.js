@@ -5,6 +5,7 @@ import Form from '../views/Form.vue';
 import Admin from '../views/Admin.vue';
 import Poster from '../views/Poster.vue';
 import Auth from '../views/Auth.vue';
+import Profile from '../views/Profile.vue';
 
 Vue.use(VueRouter);
 
@@ -46,6 +47,11 @@ const routes = [
     name: 'reset',
     component: Auth,
     props: { type: 'reset' },
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
   },
 ];
 

@@ -2,15 +2,17 @@
   <div id="app">
     <nav-bar />
     <router-view />
+    <Toast content="Success. You are now logged in" type="success" />
   </div>
 </template>
 
 <script>
 import db from '@/db';
 import NavBar from '@/components/NavBar.vue';
+import Toast from '@/components/Toast.vue';
 
 export default {
-  components: { NavBar },
+  components: { NavBar, Toast },
 
   created() {
     console.log(db);
@@ -23,15 +25,16 @@ export default {
   --radius: 0.25em;
   --charcoal: #3a3a3a;
 
-  --teal: #17b096;
-  --teal-light: #14fcd5;
+  --teal: hsl(170, 77%, 39%);
+  --teal-light: hsl(170, 97%, 53%);
   --dark: #20312f;
   --darker: #141d1b;
   --darkest: #181a19;
   --light: #b6fdf1;
   --lighter: #dafcf6;
   --lightest: #f0fcfa;
-  --red: #af1f24;
+  --red: hsl(358, 70%, 40%);
+  --red-light: hsl(358, 70%, 60%);
   --green: #0d550a;
   --green-light: #8afc47;
   --border-color: #b6fdf186;

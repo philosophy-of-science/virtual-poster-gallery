@@ -133,6 +133,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import Button from '@/components/Button.vue';
 import supabase from '@/db';
 
@@ -182,6 +183,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(['setUser', 'launchToast']),
     validatePassword() {
       if (this.password.length < 8) {
         this.passwordIsEightCharacters = false;
@@ -206,16 +208,29 @@ export default {
             });
 
             if (!error) {
-              this.success = true;
-              this.successMsg =
-                'Success. Check your email to confirm your account.';
+              this.launchToast({
+                type: 'success',
+                show: true,
+                content: 'Check your email to confirm your account.',
+              });
+              // this.success = true;
+              // this.successMsg =
+              //   'Success. Check your email to confirm your account.';
             } else {
-              this.error = true;
-              this.errorMsg = error.message;
+              this.launchToast({
+                type: 'error',
+                show: true,
+                content: error.message,
+              });
+              // this.error = true;
+              // this.errorMsg = error.message;
             }
           } catch (error) {
-            this.error = true;
-            this.errorMsg = error;
+            this.launchToast({
+              type: 'error',
+              show: true,
+              content: error.message,
+            });
           } finally {
             this.loading = false;
           }
@@ -229,15 +244,33 @@ export default {
 
             if (!error) {
               console.log(user);
-              this.success = true;
-              this.successMsg = 'Successfully signed in.';
+              this.setUser(user).then(() => {
+                this.launchToast({
+                  type: 'success',
+                  show: true,
+                  content: 'Successfully signed in.',
+                });
+                this.$router.push('/profile');
+                // this.success = true;
+                // this.successMsg = 'Successfully signed in.';
+              });
             } else {
-              this.error = true;
-              this.errorMsg = error.message;
+              // this.error = true;
+              // this.errorMsg = error.message;
+              this.launchToast({
+                type: 'error',
+                show: true,
+                content: error.message,
+              });
             }
           } catch (error) {
-            this.error = true;
-            this.errorMsg = error;
+            // this.error = true;
+            // this.errorMsg = error;
+            this.launchToast({
+              type: 'error',
+              show: true,
+              content: error.message,
+            });
           } finally {
             this.loading = false;
           }
@@ -248,15 +281,31 @@ export default {
               this.email,
             );
             if (!error) {
-              this.success = true;
-              this.successMsg = 'Reset link sent. Check your email.';
+              // this.success = true;
+              // this.successMsg = 'Reset link sent. Check your email.';
+              this.launchToast({
+                type: 'success',
+                show: true,
+                content: 'Reset link sent. Check your email.',
+              });
+              this.$router.push('/');
             } else {
-              this.error = true;
-              this.errorMsg = error.message;
+              // this.error = true;
+              // this.errorMsg = error.message;
+              this.launchToast({
+                type: 'error',
+                show: true,
+                content: error.message,
+              });
             }
           } catch (error) {
-            this.error = true;
-            this.errorMsg = error;
+            // this.error = true;
+            // this.errorMsg = error;
+            this.launchToast({
+              type: 'error',
+              show: true,
+              content: error.message,
+            });
           } finally {
             this.loading = false;
           }
