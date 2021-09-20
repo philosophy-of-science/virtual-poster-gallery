@@ -40,6 +40,7 @@ export default {
   position: fixed;
   bottom: 2rem;
   right: 5rem;
+  z-index: 1000;
 }
 
 .toast-content {

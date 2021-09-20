@@ -15,14 +15,14 @@
           <li>
             <router-link to="/" exact-active-class="active"> Home </router-link>
           </li>
-          <li>
+          <li v-if="user">
             <router-link to="/form" exact-active-class="active"
               >Submit your poster</router-link
             >
           </li>
         </ul>
       </div>
-      <div class="right">
+      <div class="right" v-if="!user">
         <Button type="outline">
           <router-link to="/sign-in">Sign in</router-link>
         </Button>
@@ -30,11 +30,21 @@
           <router-link to="/sign-up" class="link">Sign up</router-link>
         </Button>
       </div>
+      <div class="right" v-else>
+        <Button type="outline">
+          <button @click="logout">Log out</button>
+        </Button>
+        <Button type="color">
+          <router-link to="/profile" class="link">Profile</router-link>
+        </Button>
+      </div>
     </nav>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+import supabase from '@/db';
 import Button from '@/components/Button.vue';
 
 export default {
@@ -46,6 +56,32 @@ export default {
     return {
       active: 'Home',
     };
+  },
+
+  computed: mapState(['user']),
+
+  methods: {
+    ...mapActions(['setUser', 'launchToast']),
+
+    async logout() {
+      const { error } = await supabase.auth.signOut();
+
+      if (!error) {
+        this.launchToast({
+          type: 'success',
+          show: true,
+          content: 'Successfully logged out.',
+        });
+        this.setUser(null);
+        this.$router.push('/');
+      } else {
+        this.launchToast({
+          type: 'error',
+          show: true,
+          content: error,
+        });
+      }
+    },
   },
 };
 </script>
@@ -121,7 +157,7 @@ a {
   }
 }
 
-.sign-up {
+.right div:last-child {
   margin-left: 1em;
 }
 </style>

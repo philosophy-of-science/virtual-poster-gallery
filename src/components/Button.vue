@@ -28,6 +28,7 @@ div {
     font-weight: 700;
     font-size: inherit;
     font-family: inherit;
+    line-height: inherit;
     background: none;
     cursor: pointer;
     box-shadow: var(--shadow-on-dark);
@@ -43,6 +44,7 @@ div {
   button {
     background-color: var(--light);
     color: var(--dark);
+
     &:hover {
       background-color: var(--lighter);
       color: var(--dark);
