@@ -1,3 +1,5 @@
+import slugify from 'slugify';
+
 const topics = [
   'Causality',
   'Computer Simulation',
@@ -53,4 +55,6 @@ const topics = [
   'Values in Science',
 ];
 
-export default topics;
+const topicsAndSlugs = topics.map((topic) => ({ slug: slugify(topic, { lower: true }), topic }));
+
+export default topicsAndSlugs;

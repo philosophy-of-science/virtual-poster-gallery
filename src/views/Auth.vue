@@ -21,6 +21,7 @@
             id="email"
             v-model="email"
             required
+            ref="email"
           />
           <div v-if="type !== 'reset'" class="mt">
             <label for="password"
@@ -202,7 +203,7 @@ export default {
       switch (this.$props.type) {
         case 'signUp':
           try {
-            const { error } = await supabase.auth.signUp({
+            const { user, error } = await supabase.auth.signUp({
               email: this.email,
               password: this.password,
             });
@@ -213,6 +214,11 @@ export default {
                 show: true,
                 content: 'Check your email to confirm your account.',
               });
+              console.log(user);
+              supabase
+                .from('profiles')
+                .insert([{ id: user.id }], { upsert: true });
+              this.$router.push('/');
               // this.success = true;
               // this.successMsg =
               //   'Success. Check your email to confirm your account.';
@@ -311,6 +317,11 @@ export default {
           }
       }
     },
+  },
+
+  mounted() {
+    console.log(this.$refs.email);
+    this.$refs.email.focus();
   },
 };
 </script>

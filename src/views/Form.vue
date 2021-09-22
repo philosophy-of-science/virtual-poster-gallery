@@ -13,7 +13,9 @@
         <select id="topic" v-model="selected" required>
           <!-- inline object literal -->
           <option disabled value="">Please select one</option>
-          <option v-for="(topic, i) in topics" :key="i">{{ topic }}</option>
+          <option v-for="(topic, i) in topics" :key="i" :value="topic">
+            {{ topic.topic }}
+          </option>
         </select>
         <label for="image">Poster Image Upload</label>
         <input
@@ -33,7 +35,7 @@
           :title="title || 'Poster Title'"
           :abstract="abstract || 'Poster abstract...'"
           :img="previewImage || ''"
-          :topic="selected || 'Philosophy of science'"
+          :topic="selected.topic || 'Philosophy of science'"
           :poster="{ name, title }"
         />
       </div>
@@ -42,6 +44,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Card from '@/components/Card.vue';
 import Button from '@/components/Button.vue';
 import db from '@/db';
@@ -64,6 +67,7 @@ export default {
     };
   },
 
+  computed: mapState(['user']),
   methods: {
     filesChange(...args) {
       const files = args;
@@ -77,17 +81,23 @@ export default {
 
     async onSubmit() {
       const supabase = db;
-      console.log(supabase);
-      const { data, error } = await supabase.from('posters').insert([
+
+      const { data } = await supabase.from('posters').insert([
         {
-          name: this.name,
-          email: this.email,
+          authors: this.name,
           title: this.title,
           abstract: this.abstract,
-          topic: this.selected,
+          topic: this.selected.topic,
+          topic_slug: this.selected.slug,
+          creator_id: this.user.id,
         },
       ]);
-      console.log(data, error);
+
+      const res = await supabase
+        .from('profiles')
+        .insert([{ id: this.user.id, poster: data[0].id }], { upsert: true });
+
+      console.log({ data, res });
     },
   },
 };

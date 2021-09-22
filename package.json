@@ -10,6 +10,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^1.22.6",
     "core-js": "^3.6.5",
+    "slugify": "^1.6.0",
     "vue": "^2.6.11",
     "vue-awesome": "^4.3.1",
     "vue-router": "^3.2.0",
