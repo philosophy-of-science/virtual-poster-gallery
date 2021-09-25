@@ -1,11 +1,13 @@
 <template>
   <main class="container">
-    <PosterGallery />
+    <PosterGallery
+      :title="$route.params.topicId"
+      :subtitle="$route.params.topicId"
+    />
   </main>
 </template>
 
 <script>
-// @ is an alias to /src
 import PosterGallery from '@/components/PosterGallery.vue';
 
 export default {

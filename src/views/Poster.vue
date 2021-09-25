@@ -1,9 +1,10 @@
 <template>
   <section class="container">
-    <article class="">
+    <div v-if="loading">Loading...</div>
+    <article v-else>
       <header class="image-container" :class="{ expanded: expand }">
         <button @click="expand = !expand" v-on:keyup.esc="onEsc">
-          <img :src="posterInfo.img" :alt="posterInfo.title" />
+          <img :src="poster.image" :alt="poster.title" />
           <span v-show="!expand">
             <v-icon name="expand-alt" scale="2" />
           </span>
@@ -11,18 +12,16 @@
       </header>
       <div class="grid">
         <div class="left">
-          <p class="topic">
-            <v-icon name="hashtag" scale=".75" class="mr" />{{
-              posterInfo.topic
-            }}
-          </p>
+          <router-link :to="`/topic/${poster.topic_slug}`" class="topic">
+            <v-icon name="hashtag" scale=".75" class="mr" />{{ poster.topic }}
+          </router-link>
           <h2>
-            {{ posterInfo.title }}
+            {{ poster.title }}
           </h2>
-          <p class="author">{{ posterInfo.name }}</p>
+          <p class="author">{{ poster.authors }}</p>
         </div>
         <div class="abstract">
-          <p>{{ posterInfo.abstract }}</p>
+          <p>{{ poster.abstract }}</p>
         </div>
       </div>
     </article>
@@ -30,37 +29,37 @@
 </template>
 
 <script>
-import testData from '@/testData.json';
+import supabase from '@/db';
 
 export default {
   data() {
     return {
       expand: false,
+      poster: null,
+      loading: true,
     };
-  },
-
-  props: {
-    poster: Object,
-  },
-
-  computed: {
-    posterInfo() {
-      if (this.$route.params.id) {
-        const data = testData;
-        const result = data.find((poster) => {
-          console.log(poster.id, this.$route.params.id);
-          return poster.id === +this.$route.params.id;
-        });
-        return result;
-      }
-      return null;
-    },
   },
 
   methods: {
     onEsc() {
       this.expand = false;
     },
+  },
+
+  async created() {
+    try {
+      const { data: posters, error } = await supabase
+        .from('posters')
+        .select('*')
+        .eq('id', this.$route.params.id);
+
+      if (error) throw error;
+      [this.poster] = posters;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.loading = false;
+    }
   },
 };
 </script>
@@ -78,6 +77,8 @@ export default {
   display: inline-flex;
   align-items: center;
   padding: 0 0.15rem;
+  text-decoration: none;
+  display: inline-block;
 }
 
 h2 {

@@ -3,10 +3,10 @@
     <h2>Submit Your Poster</h2>
     <div class="grid">
       <form v-on:submit.prevent="onSubmit">
-        <label for="name">Author(s)</label>
-        <input type="text" id="name" v-model="name" required />
         <label for="title">Title</label>
         <input type="text" id="title" v-model="title" required />
+        <label for="name">Author(s)</label>
+        <input type="text" id="name" v-model="name" required />
         <label for="abstract">abstract</label>
         <textarea id="abstract" v-model="abstract" required />
         <label for="topic">Topic</label>
@@ -26,7 +26,7 @@
           @change="filesChange($event.target.name, $event.target.files)"
         />
         <Button type="color" class="submit-button">
-          <button>Submit</button></Button
+          <button type="submit">Submit</button></Button
         >
       </form>
       <div class="preview">
@@ -37,6 +37,7 @@
           :img="previewImage || ''"
           :topic="selected.topic || 'Philosophy of science'"
           :poster="{ name, title }"
+          :isPreview="true"
         />
       </div>
     </div>
@@ -44,10 +45,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import Card from '@/components/Card.vue';
 import Button from '@/components/Button.vue';
-import db from '@/db';
+import supabase from '@/db';
 import topics from '@/topics';
 
 export default {
@@ -64,12 +65,16 @@ export default {
       selected: '',
       topics,
       previewImage: null,
+      image: '',
     };
   },
 
   computed: mapState(['user']),
+
   methods: {
-    filesChange(...args) {
+    ...mapActions(['setUser', 'launchToast']),
+
+    async filesChange(...args) {
       const files = args;
       const file = files[1];
       const reader = new FileReader();
@@ -77,27 +82,79 @@ export default {
         this.previewImage = e.target.result;
       };
       reader.readAsDataURL(file[0]);
+
+      try {
+        const { data, error } = await supabase.storage
+          .from('poster-img')
+          .upload(file[0].name, file[0], {
+            cacheControl: '3600',
+            upsert: false,
+          });
+
+        if (error) throw error;
+
+        const { Key } = data;
+        const name = Key.split('/')[1];
+        const res = supabase.storage.from('poster-img').getPublicUrl(name);
+
+        this.image = res.publicURL;
+      } catch (error) {
+        this.launchToast({
+          type: 'error',
+          show: true,
+          content: error.message,
+        });
+      }
     },
 
     async onSubmit() {
-      const supabase = db;
+      console.log('submit');
+      if (!this.image) {
+        this.launchToast({
+          type: 'error',
+          show: true,
+          content: 'Please wait for the image to upload',
+        });
+        return;
+      }
 
-      const { data } = await supabase.from('posters').insert([
-        {
-          authors: this.name,
-          title: this.title,
-          abstract: this.abstract,
-          topic: this.selected.topic,
-          topic_slug: this.selected.slug,
-          creator_id: this.user.id,
-        },
-      ]);
+      try {
+        const { data, error } = await supabase.from('posters').insert([
+          {
+            authors: this.name,
+            title: this.title,
+            abstract: this.abstract,
+            topic: this.selected.topic,
+            topic_slug: this.selected.slug,
+            image: this.image,
+          },
+        ]);
 
-      const res = await supabase
-        .from('profiles')
-        .insert([{ id: this.user.id, poster: data[0].id }], { upsert: true });
+        console.log(data, error);
 
-      console.log({ data, res });
+        if (error) throw error;
+
+        const res = await supabase
+          .from('profiles')
+          .insert([{ id: this.user.id, poster: data[0].id }], { upsert: true });
+
+        console.log({ res });
+
+        this.launchToast({
+          type: 'success',
+          show: true,
+          content: 'Poster uploaded successfully',
+        });
+
+        this.$route.push('/profile');
+      } catch (error) {
+        this.launchToast('error', {
+          type: 'error',
+          show: true,
+          content: error.message,
+        });
+      }
+      // Update state to reflect user has poster
     },
   },
 };
@@ -119,7 +176,8 @@ h2 {
 </style>
 
 <style lang="scss">
-label {
+label,
+.label {
   display: block;
   text-transform: uppercase;
   font-size: max(0.8rem, 14px);

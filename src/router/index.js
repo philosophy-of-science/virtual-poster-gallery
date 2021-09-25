@@ -1,11 +1,15 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import supabase from '@/db';
+import store from '../store';
 import Home from '../views/Home.vue';
-import Form from '../views/Form.vue';
+import SubmissionForm from '../views/SubmissionForm.vue';
 import Admin from '../views/Admin.vue';
 import Poster from '../views/Poster.vue';
 import Auth from '../views/Auth.vue';
 import Profile from '../views/Profile.vue';
+import Topic from '../views/Topic.vue';
+import Topics from '../views/Topics.vue';
 
 Vue.use(VueRouter);
 
@@ -16,14 +20,43 @@ const routes = [
     component: Home,
   },
   {
+    path: '/topic/:topicId',
+    name: 'Topic',
+    component: Topic,
+  },
+  {
     path: '/form',
-    name: 'Form',
-    component: Form,
+    name: 'SubmissionForm',
+    component: SubmissionForm,
+    beforeEnter: (to, from, next) => {
+      if (!store.state.user) {
+        store.dispatch('launchToast', {
+          type: 'error',
+          show: true,
+          content: 'Please sign in first.',
+        });
+        next('/sign-in');
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/admin',
     name: 'Admin',
     component: Admin,
+    beforeEnter: (to, from, next) => {
+      if (!store.state.user) {
+        store.dispatch('launchToast', {
+          type: 'error',
+          show: true,
+          content: 'Please sign in first.',
+        });
+        next('/sign-in');
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/poster/:id',
@@ -49,9 +82,32 @@ const routes = [
     props: { type: 'reset' },
   },
   {
+    path: '/new-password',
+    name: 'newPassword',
+    component: Auth,
+    props: { type: 'newPassword' },
+  },
+  {
     path: '/profile',
     name: 'profile',
     component: Profile,
+    beforeEnter: (to, from, next) => {
+      if (!store.state.user) {
+        store.dispatch('launchToast', {
+          type: 'error',
+          show: true,
+          content: 'Please sign in first.',
+        });
+        next('/sign-in');
+      } else {
+        next();
+      }
+    },
+  },
+  {
+    path: '/topics',
+    name: 'topics',
+    component: Topics,
   },
 ];
 
@@ -59,6 +115,36 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (/recovery/.test(to.hash)) {
+    const accessToken =
+      to.hash.match(/access_token=([^&]+)/) && to.hash.match(/access_token=([^&]+)/)[1];
+    console.log(accessToken);
+    if (accessToken) {
+      next({ path: '/new-password', query: { accessToken } });
+    } else {
+      next('/');
+    }
+  } else if (/signup/.test(to.hash)) {
+    console.log('before enter start');
+    supabase.auth.onAuthStateChange((event, session) => {
+      console.log(event, session);
+      const user = supabase.auth.user();
+      store.dispatch('setUser', user);
+      store.dispatch('launchToast', {
+        type: 'success',
+        show: true,
+        content: "Your email has been confirmed. You're now logged in.",
+      });
+      console.log('before enter end');
+
+      next();
+    });
+  } else {
+    next();
+  }
 });
 
 export default router;

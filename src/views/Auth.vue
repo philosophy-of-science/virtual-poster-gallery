@@ -12,9 +12,12 @@
         <header v-show="type === 'reset'">
           <h2>Reset Your Password</h2>
         </header>
+        <header v-show="type === 'newPassword'">
+          <h2>Enter a New Password</h2>
+        </header>
 
         <form @submit.prevent="onSubmit">
-          <label for="email">Email</label>
+          <label for="email" v-if="type !== 'newPassword'">Email</label>
           <input
             type="email"
             name="email"
@@ -22,6 +25,7 @@
             v-model="email"
             required
             ref="email"
+            v-if="type !== 'newPassword'"
           />
           <div v-if="type !== 'reset'" class="mt">
             <label for="password"
@@ -63,7 +67,7 @@
             </div>
           </div>
 
-          <div v-if="type === 'signUp'" class="mt">
+          <div v-if="type === 'signUp' || type === 'newPassword'" class="mt">
             <label for="confirm"
               >Confirm Password
               <span
@@ -105,7 +109,10 @@
             <v-icon name="check-circle" class="mr" scale=".75" />
             {{ successMsg }}
           </span>
-          <p v-show="type !== 'reset'">
+          <p
+            v-show="type !== 'reset' && type !== 'newPassword'"
+            class="forgot-password"
+          >
             <router-link class="link" to="/reset"
               >Forgot your password?</router-link
             >
@@ -127,6 +134,11 @@
           v-show="type === 'reset'"
           src="@/assets/reset.svg"
           alt="Reset password"
+        />
+        <img
+          v-show="type === 'newPassword'"
+          src="@/assets/new-password.svg"
+          alt="New password"
         />
       </div>
     </div>
@@ -177,8 +189,11 @@ export default {
         case 'signIn':
           return 'Sign In';
 
-        default:
+        case 'reset':
           return 'Reset Your Password';
+
+        default:
+          return 'Update Your Password';
       }
     },
   },
@@ -208,29 +223,17 @@ export default {
               password: this.password,
             });
 
-            if (!error) {
-              this.launchToast({
-                type: 'success',
-                show: true,
-                content: 'Check your email to confirm your account.',
-              });
-              console.log(user);
-              supabase
-                .from('profiles')
-                .insert([{ id: user.id }], { upsert: true });
-              this.$router.push('/');
-              // this.success = true;
-              // this.successMsg =
-              //   'Success. Check your email to confirm your account.';
-            } else {
-              this.launchToast({
-                type: 'error',
-                show: true,
-                content: error.message,
-              });
-              // this.error = true;
-              // this.errorMsg = error.message;
-            }
+            if (error) throw error;
+
+            this.launchToast({
+              type: 'success',
+              show: true,
+              content: 'Check your email to confirm your account.',
+            });
+            supabase
+              .from('profiles')
+              .insert([{ id: user.id }], { upsert: true });
+            this.$router.push('/');
           } catch (error) {
             this.launchToast({
               type: 'error',
@@ -248,30 +251,42 @@ export default {
               password: this.password,
             });
 
-            if (!error) {
-              console.log(user);
-              this.setUser(user).then(() => {
-                this.launchToast({
-                  type: 'success',
-                  show: true,
-                  content: 'Successfully signed in.',
-                });
-                this.$router.push('/profile');
-                // this.success = true;
-                // this.successMsg = 'Successfully signed in.';
-              });
-            } else {
-              // this.error = true;
-              // this.errorMsg = error.message;
+            if (error) throw error;
+
+            this.setUser(user).then(() => {
               this.launchToast({
-                type: 'error',
+                type: 'success',
                 show: true,
-                content: error.message,
+                content: 'Successfully signed in.',
               });
-            }
+              this.$router.push('/profile');
+            });
           } catch (error) {
-            // this.error = true;
-            // this.errorMsg = error;
+            this.launchToast({
+              type: 'error',
+              show: true,
+              content: error.message,
+            });
+          } finally {
+            this.loading = false;
+          }
+          break;
+        case 'reset':
+          try {
+            const { error } = supabase.auth.api.resetPasswordForEmail(
+              this.email,
+            );
+
+            if (error) throw error;
+
+            this.launchToast({
+              type: 'success',
+              show: true,
+              content: 'Reset link sent. Check your email.',
+            });
+
+            this.$router.push('/');
+          } catch (error) {
             this.launchToast({
               type: 'error',
               show: true,
@@ -283,30 +298,26 @@ export default {
           break;
         default:
           try {
-            const { error } = supabase.auth.api.resetPasswordForEmail(
-              this.email,
+            this.loading = true;
+            const { accessToken } = this.$route.query;
+
+            const { error, data } = await supabase.auth.api.updateUser(
+              accessToken,
+              { password: this.password },
             );
-            if (!error) {
-              // this.success = true;
-              // this.successMsg = 'Reset link sent. Check your email.';
-              this.launchToast({
-                type: 'success',
-                show: true,
-                content: 'Reset link sent. Check your email.',
-              });
-              this.$router.push('/');
-            } else {
-              // this.error = true;
-              // this.errorMsg = error.message;
-              this.launchToast({
-                type: 'error',
-                show: true,
-                content: error.message,
-              });
-            }
+
+            if (error) throw error;
+
+            this.launchToast({
+              type: 'success',
+              show: true,
+              content: 'Password successfully updated. Logging you in...',
+            });
+
+            this.setUser(data);
+
+            this.$router.push('/profile');
           } catch (error) {
-            // this.error = true;
-            // this.errorMsg = error;
             this.launchToast({
               type: 'error',
               show: true,
@@ -320,17 +331,13 @@ export default {
   },
 
   mounted() {
-    console.log(this.$refs.email);
-    this.$refs.email.focus();
+    const firstInput = document.querySelector('input');
+    firstInput.focus();
   },
 };
 </script>
 
 <style lang="scss" scoped>
-section {
-  margin-top: 3rem;
-}
-
 header {
   margin-bottom: 1rem;
 }
@@ -361,7 +368,7 @@ header {
 }
 
 Button {
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .show-password {
@@ -397,5 +404,9 @@ Button {
   &:hover {
     color: var(--dark);
   }
+}
+
+.forgot-password {
+  margin-top: 0.25rem;
 }
 </style>

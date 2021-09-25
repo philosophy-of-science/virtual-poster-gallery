@@ -11,8 +11,8 @@
     </div>
 
     <footer>
-      <Button type="outline">
-        <router-link :to="`/poster/${id}`" :poster="{ name }"
+      <Button type="outline" v-show="!isPreview">
+        <router-link :to="`/poster/${poster_id}`" :poster="{ name }"
           ><v-icon name="address-card" scale="1.5" class="mr"></v-icon>See the
           Poster &rarr;</router-link
         >
@@ -21,7 +21,9 @@
 
     <span class="detail"></span>
     <div class="tag-container">
-      <router-link to="/"><v-icon name="hashtag" /> {{ topic }}</router-link>
+      <router-link :to="`/topic/${topicSlug}`"
+        ><v-icon name="hashtag" /> {{ topic }}</router-link
+      >
     </div>
   </article>
 </template>
@@ -35,13 +37,18 @@ export default {
   },
 
   props: {
-    id: Number,
+    poster_id: Number,
     name: String,
     title: String,
     abstract: String,
     img: String,
     topic: String,
+    topicSlug: String,
     poster: Object,
+    isPreview: {
+      type: Boolean,
+      default: false,
+    },
   },
 };
 </script>
@@ -61,7 +68,6 @@ article {
   height: auto;
   border-radius: var(--radius);
   background: var(--dark);
-  // overflow: hidden;
   color: var(--lightest);
   box-shadow: var(--shadow-on-bg);
 }

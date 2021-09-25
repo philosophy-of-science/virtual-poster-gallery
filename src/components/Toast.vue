@@ -2,20 +2,21 @@
   <transition name="slide-up">
     <div class="toast" v-if="toast.show" @click="eatToast">
       <aside class="toast-content" :class="toast.type">
+        <v-icon
+          name="check-circle"
+          class="mr"
+          v-show="toast.type === 'success'"
+        />
+        <v-icon
+          name="exclamation-circle"
+          class="mr"
+          v-show="toast.type === 'error'"
+        />
         <p>
-          <v-icon
-            name="check-circle"
-            class="mr"
-            v-show="toast.type === 'success'"
-          />
-          <v-icon
-            name="exclamation-circle"
-            class="mr"
-            v-show="toast.type === 'error'"
-          />
           {{ toast.content }}
-          <v-icon name="times" class="ml" />
         </p>
+
+        <v-icon name="times" class="ml" />
       </aside>
     </div>
   </transition>
@@ -43,10 +44,18 @@ export default {
   z-index: 1000;
 }
 
+.mr {
+  margin-right: 0.5em;
+}
+
+.ml {
+  margin-left: 0.5em;
+}
+
 .toast-content {
   display: inline-flex;
+  padding: 1rem 2rem;
   align-items: center;
-  padding: 0.5rem 1rem;
   line-height: 1.2;
   border-radius: var(--radius);
   box-shadow: var(--shadow-on-bg);
@@ -59,8 +68,8 @@ export default {
 }
 
 .success {
-  background-color: var(--teal);
-  border: 1px solid var(--teal-light);
+  background-color: var(--green);
+  border: 1px solid var(--green-light);
   color: var(--lightest);
 }
 

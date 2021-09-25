@@ -32,18 +32,11 @@
 </template>
 
 <script>
-import testData from '@/testData.json';
 import Button from '@/components/Button.vue';
 
 export default {
   components: {
     Button,
-  },
-
-  data() {
-    return {
-      data: testData,
-    };
   },
 
   methods: {

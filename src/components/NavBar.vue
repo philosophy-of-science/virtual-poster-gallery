@@ -15,6 +15,11 @@
           <li>
             <router-link to="/" exact-active-class="active"> Home </router-link>
           </li>
+          <li>
+            <router-link to="/topics" exact-active-class="active">
+              Topics
+            </router-link>
+          </li>
           <li v-if="user">
             <router-link to="/form" exact-active-class="active"
               >Submit your poster</router-link
@@ -64,21 +69,23 @@ export default {
     ...mapActions(['setUser', 'launchToast']),
 
     async logout() {
-      const { error } = await supabase.auth.signOut();
+      try {
+        const { error } = await supabase.auth.signOut();
 
-      if (!error) {
+        if (error) throw error;
         this.launchToast({
           type: 'success',
           show: true,
           content: 'Successfully logged out.',
         });
         this.setUser(null);
-        this.$router.push('/');
-      } else {
+
+        if (!this.$route.path === '/') this.$router.push('/');
+      } catch (error) {
         this.launchToast({
           type: 'error',
           show: true,
-          content: error,
+          content: error.message,
         });
       }
     },
@@ -89,6 +96,8 @@ export default {
 <style lang="scss" scoped>
 .bg {
   background-image: linear-gradient(to bottom, var(--dark), var(--darker));
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 0.15em rgba(0 0 0 / 0.25), 0 5px 0.75em rgba(0 0 0 / 0.15);
 }
 
 nav {
