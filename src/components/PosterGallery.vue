@@ -8,7 +8,7 @@
       <Card
         v-for="(card, i) in posters"
         :key="i"
-        :name="card.authors"
+        :authors="card.authors"
         :title="card.title"
         :img="card.image"
         :topic="card.topic"

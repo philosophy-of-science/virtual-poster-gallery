@@ -8,6 +8,9 @@
           <span v-show="!expand">
             <v-icon name="expand-alt" scale="2" />
           </span>
+          <span v-show="expand" class="close">
+            <v-icon name="compress-alt" scale="2" />
+          </span>
         </button>
       </header>
       <div class="grid">
@@ -29,6 +32,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import supabase from '@/db';
 
 export default {
@@ -41,6 +45,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(['launchToast']),
     onEsc() {
       this.expand = false;
     },
@@ -56,7 +61,11 @@ export default {
       if (error) throw error;
       [this.poster] = posters;
     } catch (error) {
-      console.log(error);
+      this.launchToast({
+        type: 'error',
+        show: true,
+        content: error.message,
+      });
     } finally {
       this.loading = false;
     }
@@ -70,25 +79,26 @@ export default {
 }
 
 .topic {
-  font-size: 0.8rem;
-  border-radius: var(--radius);
-  background-color: var(--dark);
-  color: var(--light);
   display: inline-flex;
   align-items: center;
   padding: 0 0.15rem;
+  font-size: 0.8rem;
+  color: var(--light);
   text-decoration: none;
-  display: inline-block;
+  text-transform: lowercase;
+  background-color: var(--dark);
+  border-radius: var(--radius);
 }
 
 h2 {
   font-size: 2rem;
+  line-height: 1.3;
 }
 
 .author {
+  margin-bottom: 2rem;
   color: var(--dark);
   text-transform: uppercase;
-  margin-bottom: 2rem;
 }
 
 .image-container {
@@ -98,28 +108,32 @@ h2 {
 
   span {
     position: absolute;
-    height: 3rem;
-    width: 3rem;
-    bottom: 50%;
     right: 0;
-    transform: translate(50%, 50%);
-    background: var(--teal);
+    bottom: 50%;
     display: inline-flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
     padding: 0.5em;
+    background: var(--teal);
     border-radius: 50%;
+    transform: translate(50%, 50%);
   }
 }
 
 .expanded {
   position: fixed;
-  height: 100vh;
-  width: 100vw;
   top: 0;
   left: 0;
-  transition: height 0.2s;
-  z-index: 10;
+  z-index: 1001;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+
+  .close {
+    right: 3rem;
+  }
 
   button {
     cursor: zoom-out;
@@ -127,63 +141,64 @@ h2 {
 
   img {
     display: block;
-    margin: 0 auto;
-    width: auto;
-    height: auto;
-    max-height: 100%;
+    width: 100%;
     max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    margin: 0 auto;
     object-fit: contain;
+    filter: drop-shadow(3px 3px 1em #0b201d1c);
+    box-shadow: none;
   }
 }
 
 img {
+  display: block;
   width: auto;
+  max-width: 100%;
   height: auto;
   max-height: 50vh;
-  max-width: 100%;
   object-fit: contain;
-  display: block;
   margin: 0 auto;
   box-shadow: var(--shadow-on-bg);
 }
 
 button {
-  padding: 1rem;
-  border: none;
-  background: none;
   display: block;
-  height: 100%;
   width: 100%;
+  height: 100%;
+  padding: 1rem;
   cursor: zoom-in;
+  background: none;
+  border: none;
 }
 
 .abstract {
-  margin-top: 1.25rem;
   position: relative;
+  margin-top: 1.25rem;
   background-color: var(--lightest);
-  border-radius: var(--radius);
   border: 1px solid;
+  border-radius: var(--radius);
 
   p {
     position: relative;
-    border-radius: var(--radius);
-    background-color: var(--lightest);
     padding: 0.5rem 0.75rem;
+    background-color: var(--lightest);
+    border-radius: var(--radius);
   }
 
   &::before {
+    position: absolute;
+    top: -1.35rem;
+    left: 0.75rem;
+    padding: 0.25em;
     font-size: 0.75rem;
+    color: var(--dark);
+    text-transform: uppercase;
     letter-spacing: 1px;
     content: 'ABSTRACT';
-    position: absolute;
-    // background: var(--dark);
-    text-transform: uppercase;
-    color: var(--dark);
     border: 1px solid;
-    padding: 0.25em;
     border-radius: var(--radius);
-    left: 0.75rem;
-    top: -1.35rem;
   }
 }
 </style>

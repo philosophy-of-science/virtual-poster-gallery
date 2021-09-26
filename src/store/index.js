@@ -6,6 +6,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     user: null,
+    poster: null,
     toast: {
       type: '',
       show: false,
@@ -17,6 +18,10 @@ const store = new Vuex.Store({
       state.user = payload;
     },
 
+    setPoster(state, payload) {
+      state.poster = payload;
+    },
+
     launchToast(state, payload) {
       state.toast = payload;
     },
@@ -25,6 +30,10 @@ const store = new Vuex.Store({
   actions: {
     setUser({ commit }, user) {
       commit('setUser', user);
+    },
+
+    setPoster({ commit }, poster) {
+      commit('setPoster', poster);
     },
 
     launchToast({ commit }, toast) {

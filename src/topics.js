@@ -5,7 +5,6 @@ const topics = [
   'Computer Simulation',
   'Confirmation and Evidence',
   'Decision Theory',
-  'Methods and Tools',
   'Ethics of science',
   'Experiment',
   'Feminist Philosophy of Science',
@@ -21,6 +20,7 @@ const topics = [
   'Logic and Science',
   'Measurement',
   'Mechanisms',
+  'Methods and Tools',
   'Natural Kinds / Classification',
   'Observation',
   'Philosophy of Astronomy / Cosmology',
@@ -55,6 +55,10 @@ const topics = [
   'Values in Science',
 ];
 
-const topicsAndSlugs = topics.map((topic) => ({ slug: slugify(topic, { lower: true }), topic }));
+const topicMap = topics.reduce((previous, current) => {
+  const slug = slugify(current, { lower: true });
+  previous[current] = { name: current, slug };
+  return previous;
+}, {});
 
-export default topicsAndSlugs;
+export { topicMap, topics };

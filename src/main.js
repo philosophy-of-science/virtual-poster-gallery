@@ -9,6 +9,9 @@ import 'vue-awesome/icons/eye';
 import 'vue-awesome/icons/eye-slash';
 import 'vue-awesome/icons/spinner';
 import 'vue-awesome/icons/times';
+import 'vue-awesome/icons/edit';
+import 'vue-awesome/icons/bars';
+import 'vue-awesome/icons/compress-alt';
 
 import App from './App.vue';
 import router from './router';
