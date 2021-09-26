@@ -121,16 +121,13 @@ router.beforeEach((to, from, next) => {
   if (/recovery/.test(to.hash)) {
     const accessToken =
       to.hash.match(/access_token=([^&]+)/) && to.hash.match(/access_token=([^&]+)/)[1];
-    console.log(accessToken);
     if (accessToken) {
       next({ path: '/new-password', query: { accessToken } });
     } else {
       next('/');
     }
   } else if (/signup/.test(to.hash)) {
-    console.log('before enter start');
     supabase.auth.onAuthStateChange((event, session) => {
-      console.log(event, session);
       const user = supabase.auth.user();
       store.dispatch('setUser', user);
       store.dispatch('launchToast', {
@@ -138,7 +135,6 @@ router.beforeEach((to, from, next) => {
         show: true,
         content: "Your email has been confirmed. You're now logged in.",
       });
-      console.log('before enter end');
 
       next();
     });
