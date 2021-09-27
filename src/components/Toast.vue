@@ -39,8 +39,8 @@ export default {
 <style lang="scss" scoped>
 .toast {
   position: fixed;
+  right: 10%;
   bottom: 2rem;
-  right: 5rem;
   z-index: 1000;
 }
 
@@ -54,29 +54,29 @@ export default {
 
 .toast-content {
   display: inline-flex;
-  padding: 1rem 2rem;
   align-items: center;
+  padding: 1rem 2rem;
   line-height: 1.2;
   border-radius: var(--radius);
   box-shadow: var(--shadow-on-bg);
 }
 
 .error {
+  color: var(--lightest);
   background-color: var(--red);
   border: 1px solid var(--red-light);
-  color: var(--lightest);
 }
 
 .success {
+  color: var(--lightest);
   background-color: var(--green);
   border: 1px solid var(--green-light);
-  color: var(--lightest);
 }
 
 .info {
+  color: var(--lightest);
   background-color: var(--darkest);
   border: 1px solid var(--dark);
-  color: var(--lightest);
 }
 
 .slide-up-enter-active {
@@ -87,7 +87,7 @@ export default {
 }
 .slide-up-enter,
 .slide-up-leave-to {
-  transform: translateY(calc(100% + 2rem));
   opacity: 0;
+  transform: translateY(calc(100% + 2rem));
 }
 </style>
