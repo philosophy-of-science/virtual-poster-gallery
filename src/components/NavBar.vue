@@ -10,11 +10,7 @@
           <p>Virtual Poster Gallery</p>
         </router-link>
       </div>
-      <div
-        class="bar"
-        :class="{ show: showMenu }"
-        @click="showMenu = !showMenu"
-      >
+      <div class="bar" :class="{ show: showMenu }" @click="toggleMenu">
         <div class="center">
           <ul>
             <li>
@@ -105,6 +101,12 @@ export default {
           show: true,
           content: error.message,
         });
+      }
+    },
+
+    toggleMenu() {
+      if (document.documentElement.clientWidth < 769) {
+        this.showMenu = false;
       }
     },
   },
