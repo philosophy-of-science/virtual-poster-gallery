@@ -205,7 +205,7 @@ h2 {
   a {
     display: block;
     font-size: 85%;
-    color: var(--lighter);
+    color: var(--lightest);
     text-decoration: none;
     text-transform: lowercase;
   }

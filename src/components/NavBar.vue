@@ -49,7 +49,7 @@
       </div>
       <div class="button">
         <Button type="outline">
-          <button @click="showMenu = !showMenu">
+          <button @click="showMenu = !showMenu" aria-label="Menu">
             <v-icon scale="1.5" name="bars" />
           </button>
         </Button>

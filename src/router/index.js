@@ -127,7 +127,7 @@ router.beforeEach((to, from, next) => {
       next('/');
     }
   } else if (/signup/.test(to.hash)) {
-    supabase.auth.onAuthStateChange((event, session) => {
+    supabase.auth.onAuthStateChange(() => {
       const user = supabase.auth.user();
       store.dispatch('setUser', user);
       store.dispatch('launchToast', {

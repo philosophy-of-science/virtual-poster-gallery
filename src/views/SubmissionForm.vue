@@ -48,6 +48,7 @@
           :abstract="abstract || 'Poster abstract...'"
           :img="previewImage || ''"
           :topic="selected || 'Philosophy of science'"
+          :topicSlug="getTopicSlug(selected)"
           :isPreview="true"
         />
       </div>

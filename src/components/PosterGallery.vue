@@ -48,28 +48,29 @@ export default {
     // Grab data from db
     // const filter = this.$router.params.id || '';
     // if no filter, get all. otherwise filter.
-
-    if (!this.$route.params.topicId) {
-      this.title = 'Philosophy of Science Association';
-      this.subtitle = '2021 Virtual Poster Gallery';
-      const { data: posters, error } = await supabase
-        .from('posters')
-        .select('*');
-      if (!error) {
-        this.posters = posters;
-      }
-    } else {
-      const { data: posters, error } = await supabase
-        .from('posters')
-        .select('*')
-        .eq('topic_slug', this.$route.params.topicId);
-      if (!error) {
+    try {
+      if (!this.$route.params.topicId) {
+        this.title = 'Philosophy of Science Association';
+        this.subtitle = '2021 Virtual Poster Gallery';
+        const { data: posters, error } = await supabase
+          .from('posters')
+          .select('*');
+        if (!error) {
+          this.posters = posters;
+        }
+      } else {
+        const { data: posters, error } = await supabase
+          .from('posters')
+          .select('*')
+          .eq('topic_slug', this.$route.params.topicId);
+        if (error) throw error;
         this.posters = posters;
         const [card] = posters;
-
         this.title = card.topic;
         this.subtitle = this.generateSubtitle(card.topic, posters.length);
       }
+    } catch (error) {
+      console.log(error);
     }
   },
 };
