@@ -109,6 +109,11 @@ const routes = [
     name: 'topics',
     component: Topics,
   },
+  {
+    path: '*',
+    name: '404',
+    component: Home,
+  },
 ];
 
 const router = new VueRouter({
