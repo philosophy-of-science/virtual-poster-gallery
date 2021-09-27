@@ -343,12 +343,11 @@ header {
 }
 
 .helper {
-  margin-left: 0.25rem;
-
-  background: none;
-  border: 1px solid;
   display: inline-flex;
   align-items: center;
+  margin-left: 0.25rem;
+  background: none;
+  border: 1px solid;
 
   &--error {
     @extend .helper;
@@ -377,16 +376,16 @@ Button {
   }
 
   &__button {
-    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 20px;
     width: 40px;
     height: 40px;
     margin: 0;
+    cursor: pointer;
     background: none;
     border: none;
-    position: absolute;
-    top: 50%;
     transform: translateY(-50%);
-    right: 20px;
   }
 }
 
@@ -398,8 +397,8 @@ Button {
 }
 
 .link {
-  font-size: 0.8rem;
   margin-top: 0.25em;
+  font-size: 0.8rem;
 
   &:hover {
     color: var(--dark);
