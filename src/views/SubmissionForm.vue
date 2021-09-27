@@ -216,7 +216,7 @@ export default {
     },
 
     getTopicSlug(topic) {
-      return topicMap[topic].slug;
+      return topicMap[topic] && topicMap[topic].slug;
     },
   },
 
