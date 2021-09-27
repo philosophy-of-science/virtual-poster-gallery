@@ -10,7 +10,11 @@
           <p>Virtual Poster Gallery</p>
         </router-link>
       </div>
-      <div class="bar" :class="{ show: showMenu }">
+      <div
+        class="bar"
+        :class="{ show: showMenu }"
+        @click="showMenu = !showMenu"
+      >
         <div class="center">
           <ul>
             <li>
@@ -202,7 +206,7 @@ a {
 }
 
 .bar {
-  position: fixed;
+  position: absolute;
   top: 57px;
   right: 0;
   z-index: 1000;
