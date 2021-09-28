@@ -96,7 +96,6 @@ h2 {
 }
 
 .author {
-  margin-bottom: 2rem;
   color: var(--dark);
   text-transform: uppercase;
 }
@@ -108,7 +107,7 @@ h2 {
 
   span {
     position: absolute;
-    right: 0;
+    right: 50%;
     bottom: 50%;
     display: inline-flex;
     align-items: center;
@@ -116,8 +115,11 @@ h2 {
     width: 3rem;
     height: 3rem;
     padding: 0.5em;
-    background: var(--teal);
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid;
+    backdrop-filter: blur(5px);
     border-radius: 50%;
+    box-shadow: var(--shadow-on-bg);
     transform: translate(50%, 50%);
   }
 }
@@ -132,7 +134,9 @@ h2 {
   border-radius: 0;
 
   .close {
-    right: 3rem;
+    animation: fade-out 0.3s ease-in;
+    animation-delay: 1s;
+    animation-fill-mode: forwards;
   }
 
   button {
@@ -199,6 +203,12 @@ button {
     content: 'ABSTRACT';
     border: 1px solid;
     border-radius: var(--radius);
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
   }
 }
 </style>

@@ -20,6 +20,30 @@
             {{ topic }}
           </option>
         </select>
+        <div class="poster-instructions">
+          <div>
+            <p><strong>Poster Image Instructions</strong></p>
+            <ul>
+              <li>
+                Poster files must be in an image format (like .jpg or .png) and
+                less than 1MB in size (<a
+                  href="https://imagecompressor.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >optimize your image if necessary</a
+                >).
+              </li>
+              <li>PDFs are not accepted.</li>
+              <li>Images should be 1200 px in width and 1600 px in height.</li>
+            </ul>
+          </div>
+          <div class="mockup">
+            <div>
+              <span>&#8672; 1200 px &#8674;</span>
+              <span>&#8672; 1600 px &#8674;</span>
+            </div>
+          </div>
+        </div>
         <label for="image"
           >Poster Image Upload<span v-show="loadingImg" class="loading">
             <v-icon name="spinner" pulse></v-icon> </span
@@ -309,5 +333,74 @@ textarea {
   padding-left: 0.75rem;
   margin-top: 0.25em;
   font-size: 0.8rem;
+}
+
+.poster-instructions {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  margin: 1rem 0;
+  background-color: var(--lighter);
+  border-radius: var(--radius);
+
+  @media (min-width: 769px) {
+    flex-direction: row;
+  }
+
+  div {
+    &:first-child {
+      flex: 1;
+      @media (min-width: 769px) {
+        flex-basis: 66%;
+      }
+      margin-right: 1rem;
+    }
+  }
+  p:first-child {
+    margin-bottom: 0.5em;
+  }
+  .mockup {
+    position: relative;
+    flex: 1;
+    margin-top: 1rem;
+    @media (min-width: 769px) {
+      flex-basis: 33%;
+      margin-top: 0;
+    }
+    aspect-ratio: 3 / 4;
+    height: 15rem;
+    padding: 0.5rem;
+    border: 1px dashed;
+    border-radius: var(--radius);
+
+    span:first-child {
+      position: absolute;
+      top: 5%;
+      left: 0;
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+    span:last-child {
+      position: absolute;
+      bottom: 0;
+      left: 5%;
+      display: block;
+      width: 100%;
+      text-align: center;
+      transform: rotate(-90deg);
+      transform-origin: top left;
+    }
+  }
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    padding: 1rem;
+  }
+}
+
+ul {
+  padding-left: 2rem;
 }
 </style>
