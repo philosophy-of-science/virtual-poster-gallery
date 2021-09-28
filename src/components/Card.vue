@@ -3,7 +3,9 @@
     <article>
       <header>
         <h2>{{ title }}</h2>
-        <p class="author">{{ authors }}</p>
+        <p class="author">
+          {{ authors }}
+        </p>
       </header>
 
       <div class="image-container">
@@ -80,7 +82,7 @@ article {
 
 header {
   @include padding;
-  height: calc(1rem + (1rem * 1.3) + (1.2rem * 3.9) + 3rem);
+  height: 10rem;
 }
 
 .image-container {
@@ -158,12 +160,14 @@ h2 {
 }
 
 .author {
+  display: -webkit-box;
   margin-top: 0.5rem;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   line-height: 1.3;
   color: var(--lighter);
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .detail {

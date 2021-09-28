@@ -41,7 +41,9 @@
                 :type="showPw"
                 name="password"
                 id="password"
-                autocomplete="new-password"
+                :autocomplete="
+                  type === 'signIn' ? 'current-password' : 'new-password'
+                "
                 minlength="8"
                 required
                 v-model="password"

@@ -362,14 +362,14 @@ textarea {
   .mockup {
     position: relative;
     flex: 1;
+    height: 15rem;
+    padding: 0.5rem;
     margin-top: 1rem;
     @media (min-width: 769px) {
       flex-basis: 33%;
       margin-top: 0;
     }
     aspect-ratio: 3 / 4;
-    height: 15rem;
-    padding: 0.5rem;
     border: 1px dashed;
     border-radius: var(--radius);
 
