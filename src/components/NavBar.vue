@@ -185,7 +185,7 @@ a {
   &::after {
     position: absolute;
     top: 0;
-    right: -5epx;
+    right: -5px;
     width: 0.25em;
     height: 0.25em;
     content: '';
