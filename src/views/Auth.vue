@@ -41,7 +41,7 @@
                 :type="showPw"
                 name="password"
                 id="password"
-                autocomplete="new-passwowrd"
+                autocomplete="new-password"
                 minlength="8"
                 required
                 v-model="password"
@@ -54,6 +54,7 @@
                 v-show="!passwordVisible"
                 @click.stop.prevent="passwordVisible = true"
                 class="show-password__button"
+                aria-label="show password"
               >
                 <v-icon name="eye" scale="1.5" />
               </button>
@@ -61,6 +62,7 @@
                 v-show="passwordVisible"
                 @click.stop.prevent="passwordVisible = false"
                 class="show-password__button"
+                aria-label="show password"
               >
                 <v-icon name="eye-slash" scale="1.5" />
               </button>
@@ -339,7 +341,7 @@ export default {
 
 <style lang="scss" scoped>
 header {
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 }
 
 .helper {

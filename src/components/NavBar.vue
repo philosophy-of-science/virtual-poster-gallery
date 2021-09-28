@@ -1,5 +1,5 @@
 <template>
-  <div class="bg">
+  <div class="bg" @keyup.esc="closeByEsc">
     <nav class="container">
       <div class="left">
         <router-link to="/" class="brand">
@@ -7,7 +7,7 @@
             src="../assets/logo.png"
             alt="Philosophy of Science Association logo"
           />
-          <p>Virtual Poster Gallery</p>
+          <h1>Virtual Poster Gallery</h1>
         </router-link>
       </div>
       <div class="bar" :class="{ show: showMenu }" @click="toggleMenu">
@@ -50,7 +50,8 @@
       <div class="button">
         <Button type="outline">
           <button @click="showMenu = !showMenu" aria-label="Menu">
-            <v-icon scale="1.5" name="bars" />
+            <v-icon v-show="!showMenu" scale="1.5" name="bars" />
+            <v-icon v-show="showMenu" scale="1.5" name="times" />
           </button>
         </Button>
       </div>
@@ -109,13 +110,17 @@ export default {
         this.showMenu = false;
       }
     },
+
+    closeByEsc() {
+      if (this.showMenu) this.showMenu = false;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .bg {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   background-image: linear-gradient(to bottom, var(--dark), var(--darker));
   box-shadow: 0 1px 0.15em rgba(0 0 0 / 0.25), 0 5px 0.75em rgba(0 0 0 / 0.15);
 }
