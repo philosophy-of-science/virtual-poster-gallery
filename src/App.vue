@@ -78,8 +78,9 @@ html {
   max-width: var(--laptop);
   padding: 1rem;
   margin: 0 auto;
+
   @media (min-width: 576px) {
-    padding: 1rem 2rem;
+    padding: 1rem 3rem;
   }
 }
 

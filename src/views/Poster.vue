@@ -13,7 +13,7 @@
           </span>
         </button>
       </header>
-      <div class="grid">
+      <div class="text-container">
         <div class="left">
           <router-link :to="`/topic/${poster.topic_slug}`" class="topic">
             <v-icon name="hashtag" scale=".75" class="mr" />{{ poster.topic }}
@@ -74,7 +74,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.grid {
+.text-container {
   margin-top: 3rem;
 }
 
@@ -179,14 +179,18 @@ button {
 
 .abstract {
   position: relative;
-  margin-top: 1.25rem;
+  margin-top: 3.25rem;
   background-color: var(--lightest);
   border: 1px solid;
   border-radius: var(--radius);
 
   p {
     position: relative;
-    padding: 0.5rem 0.75rem;
+    max-width: 66ch;
+    padding: 1rem;
+    @media (min-width: 768px) {
+      padding: 2rem;
+    }
     background-color: var(--lightest);
     border-radius: var(--radius);
   }
@@ -194,7 +198,10 @@ button {
   &::before {
     position: absolute;
     top: -1.35rem;
-    left: 0.75rem;
+    left: 1rem;
+    @media (min-width: 768px) {
+      left: 2rem;
+    }
     padding: 0.25em;
     font-size: 0.75rem;
     color: var(--dark);
