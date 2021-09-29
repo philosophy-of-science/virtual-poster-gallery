@@ -336,42 +336,28 @@ textarea {
 }
 
 .poster-instructions {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-auto-flow: row;
+  gap: 1rem;
   padding: 1rem;
   margin: 1rem 0;
   background-color: var(--lighter);
   border-radius: var(--radius);
 
-  @media (min-width: 769px) {
-    flex-direction: row;
+  @media (min-width: 1200px) {
+    grid-auto-flow: column;
   }
 
-  div {
-    &:first-child {
-      flex: 1;
-      @media (min-width: 769px) {
-        flex-basis: 66%;
-      }
-      margin-right: 1rem;
-    }
-  }
-  p:first-child {
-    margin-bottom: 0.5em;
-  }
   .mockup {
-    position: relative;
-    flex: 1;
-    height: 15rem;
-    padding: 0.5rem;
-    margin-top: 1rem;
-    @media (min-width: 769px) {
-      flex-basis: 33%;
-      margin-top: 0;
+    div {
+      position: relative;
+      width: 10rem;
+      max-width: 100%;
+      height: 10rem * 1.5;
+      margin: 0 auto;
+      border: 1px dashed;
+      border-radius: var(--radius);
     }
-    aspect-ratio: 3 / 4;
-    border: 1px dashed;
-    border-radius: var(--radius);
 
     span:first-child {
       position: absolute;
@@ -381,6 +367,7 @@ textarea {
       width: 100%;
       text-align: center;
     }
+
     span:last-child {
       position: absolute;
       bottom: 0;
@@ -392,15 +379,9 @@ textarea {
       transform-origin: top left;
     }
   }
-  img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    padding: 1rem;
-  }
-}
 
-ul {
-  padding-left: 2rem;
+  ul {
+    padding-left: 2rem;
+  }
 }
 </style>
