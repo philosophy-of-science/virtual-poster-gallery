@@ -10,6 +10,13 @@
         <input type="text" id="title" v-model="title" required />
         <label for="authors">Author(s)</label>
         <input type="text" id="authors" v-model="authors" required />
+        <quill-editor
+          ref="myQuillEditor"
+          v-model="content"
+          @blur="onEditorBlur($event)"
+          @focus="onEditorFocus($event)"
+          @ready="onEditorReady($event)"
+        />
         <label for="abstract">abstract</label>
         <textarea id="abstract" v-model="abstract" required />
         <label for="topic">Topic</label>
@@ -82,6 +89,10 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+import { quillEditor } from 'vue-quill-editor';
 import slugify from 'slugify';
 import Card from '@/components/Card.vue';
 import Button from '@/components/Button.vue';
@@ -92,6 +103,7 @@ export default {
   components: {
     Card,
     Button,
+    quillEditor,
   },
 
   data() {
@@ -106,10 +118,16 @@ export default {
       image: '',
       loading: false,
       loadingImg: false,
+      content: '',
     };
   },
 
-  computed: mapState(['user', 'poster']),
+  computed: {
+    ...mapState(['user', 'poster']),
+    editor() {
+      return this.$refs.myQuillEditor.quill;
+    },
+  },
 
   methods: {
     ...mapActions(['launchToast', 'setPoster']),
@@ -241,6 +259,20 @@ export default {
 
     getTopicSlug(topic) {
       return topicMap[topic] && topicMap[topic].slug;
+    },
+
+    onEditorBlur(quill) {
+      console.log('editor blur!', quill);
+    },
+    onEditorFocus(quill) {
+      console.log('editor focus!', quill);
+    },
+    onEditorReady(quill) {
+      console.log('editor ready!', quill);
+    },
+    onEditorChange({ quill, html, text }) {
+      console.log('editor change!', quill, html, text);
+      this.content = html;
     },
   },
 
