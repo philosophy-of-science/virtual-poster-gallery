@@ -9,7 +9,7 @@
       </header>
 
       <div class="image-container">
-        <img v-if="img" :src="img" :alt="title" />
+        <img v-if="img" :src="img" :alt="title" height="368" loading="lazy" />
         <div v-else class="placeholder"></div>
       </div>
 
@@ -81,8 +81,9 @@ article {
 }
 
 header {
+  box-sizing: content-box;
   @include padding;
-  height: 10rem;
+  height: (1.2rem * 2 * 1.3) + (1 * 1.3) + 0.5;
 }
 
 .image-container {
@@ -90,20 +91,19 @@ header {
   z-index: 1;
   display: flex;
   align-items: center;
-  width: calc(100% - 1rem);
-  height: 30rem;
-  padding: 1rem;
+  width: calc(100% - 16px);
+  height: 400px;
+  padding: 16px;
   background-color: var(--lightest);
   border-radius: var(--radius);
   box-shadow: var(--shadow-on-dark);
-  transform: translateX(-1rem);
+  transform: translateX(-16px);
 }
 
 img,
 .placeholder {
   display: block;
   width: 100%;
-
   height: 100%;
   margin: 0 auto;
   object-fit: contain;
@@ -151,7 +151,7 @@ img,
 
 h2 {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   font-size: 1.2rem;
@@ -160,14 +160,12 @@ h2 {
 }
 
 .author {
-  display: -webkit-box;
   margin-top: 0.5rem;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
   overflow: hidden;
   line-height: 1.3;
   color: var(--lighter);
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .detail {

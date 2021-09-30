@@ -130,7 +130,8 @@ nav {
   align-items: center;
   justify-content: space-between;
   max-width: var(--laptop);
-  padding: 0.5rem 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   margin: 0 auto;
   font-size: 0.8rem;
   color: var(--lightest);

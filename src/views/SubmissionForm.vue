@@ -17,7 +17,6 @@
           v-model="content"
           @blur="onEditorBlur($event)"
           @focus="onEditorFocus($event)"
-          @ready="onEditorReady($event)"
           :options="editorOption"
         />
         <!-- <div v-html="sanitizedAbstract"></div>
@@ -95,7 +94,7 @@
 import { mapState, mapActions } from 'vuex';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
-import sanitize from 'sanitize-html';
+import sanitize from 'xss';
 import { quillEditor } from 'vue-quill-editor';
 import slugify from 'slugify';
 import Card from '@/components/Card.vue';

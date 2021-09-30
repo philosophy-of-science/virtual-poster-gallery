@@ -70,15 +70,15 @@ header {
 
 .topic {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-radius: var(--radius);
-  background-color: var(--darkest);
-  color: var(--light);
-  box-shadow: var(--shadow-on-bg);
-  text-transform: lowercase;
-  text-decoration: none;
+  justify-content: space-between;
   overflow: hidden;
+  color: var(--light);
+  text-decoration: none;
+  text-transform: lowercase;
+  background-color: var(--darkest);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-on-bg);
   transition: background-color 0.2s;
 
   &:hover {
@@ -94,11 +94,11 @@ header {
   }
 
   span:last-child {
-    background-color: var(--light);
-    color: var(--darkest);
-    font-size: 2em;
     padding: 1rem 2rem 1rem 2rem;
+    font-size: 2em;
     font-weight: 700;
+    color: var(--darkest);
+    background-color: var(--light);
     transition: background-color 0.2s;
   }
 }
