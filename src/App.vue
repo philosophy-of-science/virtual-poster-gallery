@@ -110,4 +110,25 @@ html {
 .link {
   color: inherit;
 }
+
+ul,
+ol {
+  padding-left: 2rem;
+}
+
+blockquote {
+  padding-left: 1rem;
+  margin: 1rem 0;
+  border-left: 3px solid var(--teal);
+}
+
+strong,
+b {
+  font-weight: 700;
+}
+
+em,
+i {
+  font-style: italic;
+}
 </style>

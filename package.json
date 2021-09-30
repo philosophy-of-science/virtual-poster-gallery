@@ -10,9 +10,11 @@
   "dependencies": {
     "@supabase/supabase-js": "^1.22.6",
     "core-js": "^3.6.5",
+    "sanitize-html": "^2.5.1",
     "slugify": "^1.6.0",
     "vue": "^2.6.11",
     "vue-awesome": "^4.3.1",
+    "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.2.0",
     "vuex": "^3.6.2"
   },

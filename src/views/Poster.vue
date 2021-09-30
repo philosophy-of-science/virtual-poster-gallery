@@ -181,7 +181,6 @@ button {
   position: relative;
   margin-top: 3.25rem;
   background-color: var(--lightest);
-  border: 1px solid;
   border-radius: var(--radius);
 
   p {
@@ -189,7 +188,7 @@ button {
     max-width: 66ch;
     padding: 1rem;
     @media (min-width: 768px) {
-      padding: 2rem;
+      padding: 1.5rem 2rem;
     }
     background-color: var(--lightest);
     border-radius: var(--radius);
