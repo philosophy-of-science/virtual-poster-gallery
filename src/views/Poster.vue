@@ -23,9 +23,8 @@
           </h2>
           <p class="author">{{ poster.authors }}</p>
         </div>
-        <div class="abstract">
-          <p>{{ poster.abstract }}</p>
-        </div>
+        <p class="abstract__label">Abstract</p>
+        <div class="abstract" v-html="poster.abstract"></div>
       </div>
     </article>
   </section>
@@ -178,37 +177,14 @@ button {
 }
 
 .abstract {
-  position: relative;
-  margin-top: 3.25rem;
-  background-color: var(--lightest);
-  border-radius: var(--radius);
-
-  p {
-    position: relative;
-    max-width: 66ch;
-    padding: 1rem;
-    @media (min-width: 768px) {
-      padding: 1.5rem 2rem;
-    }
-    background-color: var(--lightest);
-    border-radius: var(--radius);
-  }
-
-  &::before {
-    position: absolute;
-    top: -1.35rem;
-    left: 1rem;
-    @media (min-width: 768px) {
-      left: 2rem;
-    }
-    padding: 0.25em;
-    font-size: 0.75rem;
+  max-width: 66ch;
+  &__label {
+    margin: 1rem 0 0;
+    font-size: 0.9rem;
+    font-weight: 700;
     color: var(--dark);
     text-transform: uppercase;
-    letter-spacing: 1px;
-    content: 'ABSTRACT';
-    border: 1px solid;
-    border-radius: var(--radius);
+    letter-spacing: 0.5px;
   }
 }
 

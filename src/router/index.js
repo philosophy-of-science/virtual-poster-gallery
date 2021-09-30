@@ -3,13 +3,13 @@ import VueRouter from 'vue-router';
 import supabase from '@/db';
 import store from '../store';
 import Home from '../views/Home.vue';
-import SubmissionForm from '../views/SubmissionForm.vue';
-import Admin from '../views/Admin.vue';
 import Poster from '../views/Poster.vue';
 import Auth from '../views/Auth.vue';
-import Profile from '../views/Profile.vue';
 import Topic from '../views/Topic.vue';
 import Topics from '../views/Topics.vue';
+
+const SubmissionForm = () => import('../views/SubmissionForm.vue');
+const Profile = () => import('../views/Profile.vue');
 
 Vue.use(VueRouter);
 
@@ -28,23 +28,6 @@ const routes = [
     path: '/form',
     name: 'SubmissionForm',
     component: SubmissionForm,
-    beforeEnter: (to, from, next) => {
-      if (!store.state.user) {
-        store.dispatch('launchToast', {
-          type: 'error',
-          show: true,
-          content: 'Please sign in first.',
-        });
-        next('/sign-in');
-      } else {
-        next();
-      }
-    },
-  },
-  {
-    path: '/admin',
-    name: 'Admin',
-    component: Admin,
     beforeEnter: (to, from, next) => {
       if (!store.state.user) {
         store.dispatch('launchToast', {
