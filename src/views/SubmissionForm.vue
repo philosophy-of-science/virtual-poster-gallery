@@ -20,9 +20,9 @@
           @ready="onEditorReady($event)"
           :options="editorOption"
         />
-        <div v-html="sanitizedAbstract"></div>
+        <!-- <div v-html="sanitizedAbstract"></div>
         <label for="abstract">abstract</label>
-        <textarea id="abstract" v-model="abstract" required />
+        <textarea id="abstract" v-model="abstract" required /> -->
         <label for="topic">Topic</label>
         <select id="topic" v-model="selected" required>
           <!-- inline object literal -->
@@ -291,14 +291,9 @@ export default {
       this.$refs.myQuillEditor.$el.classList.remove('focus');
     },
     onEditorFocus() {
-      console.log(this.$refs);
       this.$refs.myQuillEditor.$el.classList.add('focus');
     },
-    onEditorReady(quill) {
-      console.log('editor ready!', quill);
-    },
-    onEditorChange({ quill, html, text }) {
-      console.log('editor change!', quill, html, text);
+    onEditorChange({ html }) {
       this.content = html;
     },
   },
@@ -326,127 +321,6 @@ h2 {
 </style>
 
 <style lang="scss">
-label,
-.label {
-  display: block;
-  padding-left: 0.75rem;
-  margin-bottom: 0.25em;
-  font-size: max(0.8rem, 14px);
-  font-weight: 700;
-  text-transform: uppercase;
-
-  & ~ label {
-    margin-top: 1rem;
-  }
-}
-
-input,
-textarea,
-select,
-.editor {
-  width: 100%;
-  padding: 0.5rem 0.75rem;
-  font-family: inherit;
-  font-size: inherit;
-  color: var(--darkest);
-  background: var(--lightest);
-  border: 2px solid transparent;
-  border-radius: var(--radius);
-  transition: border 0.2s, background 0.2s;
-
-  &:focus,
-  &.focus {
-    background: var(--lighter);
-    border: 2px solid var(--teal);
-    outline: none;
-  }
-}
-
-textarea {
-  height: 25ch;
-}
-
-.badge {
-  display: inline-block;
-  padding: 0 0.25rem;
-  font-size: 0.8em;
-  font-weight: normal;
-  letter-spacing: 0.5px;
-  vertical-align: middle;
-  border-radius: var(--radius);
-  transform: translateY(-2px);
-}
-
-.submit-button {
-  margin-top: 1rem;
-  button {
-    &:disabled {
-      cursor: not-allowed;
-      opacity: 0.75;
-    }
-  }
-}
-
-.loading {
-  margin-left: 0.5em;
-}
-
-.helper {
-  padding-left: 0.75rem;
-  margin-top: 0.25em;
-  font-size: 0.8rem;
-}
-
-.poster-instructions {
-  display: grid;
-  grid-auto-flow: row;
-  gap: 1rem;
-  padding: 1rem;
-  margin: 1rem 0;
-  background-color: var(--lighter);
-  border-radius: var(--radius);
-
-  @media (min-width: 1200px) {
-    grid-auto-flow: column;
-  }
-
-  .mockup {
-    div {
-      position: relative;
-      width: 10rem;
-      max-width: 100%;
-      height: 10rem * 1.5;
-      margin: 0 auto;
-      border: 1px dashed;
-      border-radius: var(--radius);
-    }
-
-    span:first-child {
-      position: absolute;
-      top: 5%;
-      left: 0;
-      display: block;
-      width: 100%;
-      text-align: center;
-    }
-
-    span:last-child {
-      position: absolute;
-      bottom: 0;
-      left: 5%;
-      display: block;
-      width: 100%;
-      text-align: center;
-      transform: rotate(-90deg);
-      transform-origin: top left;
-    }
-  }
-
-  ul {
-    padding-left: 2rem;
-  }
-}
-
 .ql-toolbar.ql-snow {
   padding: 0 !important;
   border: none !important;
