@@ -226,7 +226,7 @@ export default {
             {
               title: this.title,
               authors: this.authors,
-              abstract: this.abstract,
+              abstract: this.sanitizedAbstract,
               topic: this.selected,
               topic_slug: this.getTopicSlug(this.selected),
               image: this.image,
@@ -253,7 +253,7 @@ export default {
             id: this.poster.id,
             title: this.title,
             authors: this.authors,
-            abstract: this.abstract,
+            abstract: this.sanitizedAbstract,
             topic: this.selected,
             topic_slug: this.getTopicSlug(this.selected),
             image: this.image,
