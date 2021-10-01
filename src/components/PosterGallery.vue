@@ -14,6 +14,7 @@
         :topic="card.topic"
         :topicSlug="card.topic_slug"
         :poster_id="card.id"
+        :num="i"
       />
     </div>
   </div>

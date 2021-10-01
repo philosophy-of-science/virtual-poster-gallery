@@ -9,7 +9,13 @@
       </header>
 
       <div class="image-container">
-        <img v-if="img" :src="img" :alt="title" height="368" loading="lazy" />
+        <img
+          v-if="img"
+          :src="img"
+          :alt="title"
+          height="368"
+          :loading="num > 4 ? 'lazy' : 'eager'"
+        />
         <div v-else class="placeholder"></div>
       </div>
 
@@ -52,6 +58,7 @@ export default {
       type: Boolean,
       default: false,
     },
+    num: Number,
   },
 };
 </script>
@@ -83,7 +90,7 @@ article {
 header {
   box-sizing: content-box;
   @include padding;
-  height: (1.2rem * 2 * 1.3) + (1 * 1.3) + 0.5;
+  height: 5rem;
 }
 
 .image-container {

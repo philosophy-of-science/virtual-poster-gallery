@@ -106,7 +106,7 @@ export default {
     },
 
     toggleMenu() {
-      if (document.documentElement.clientWidth < 769) {
+      if (document.documentElement.clientWidth < 900) {
         this.showMenu = false;
       }
     },
@@ -119,6 +119,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$break: 900px;
+
 .bg {
   margin-bottom: 1rem;
   background-image: linear-gradient(to bottom, var(--dark), var(--darker));
@@ -152,6 +154,7 @@ nav {
 }
 
 ul {
+  padding-left: 0;
   list-style-type: none;
 }
 
@@ -159,7 +162,7 @@ li {
   display: block;
   margin-bottom: 1rem;
 
-  @media (min-width: 769px) {
+  @media (min-width: $break) {
     display: inline-block;
     margin-bottom: 0;
 
@@ -201,7 +204,7 @@ a {
     margin-top: 1rem;
   }
 
-  @media (min-width: 769px) {
+  @media (min-width: $break) {
     div {
       display: inline-block;
       margin-top: 0;
@@ -230,7 +233,7 @@ a {
     display: block;
   }
 
-  @media (min-width: 769px) {
+  @media (min-width: $break) {
     position: initial;
     top: initial;
     right: initial;
@@ -249,7 +252,7 @@ a {
 
 .button {
   display: none;
-  @media (max-width: 768px) {
+  @media (max-width: $break) {
     display: flex;
   }
 }

@@ -130,6 +130,7 @@ h2 {
   z-index: 1001;
   width: 100vw;
   height: 100vh;
+  height: -webkit-fill-available;
   border-radius: 0;
 
   .close {
