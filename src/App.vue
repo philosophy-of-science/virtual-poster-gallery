@@ -3,15 +3,17 @@
     <nav-bar />
     <router-view />
     <Toast />
+    <Footer />
   </div>
 </template>
 
 <script>
 import NavBar from '@/components/NavBar.vue';
 import Toast from '@/components/Toast.vue';
+import Footer from './components/Footer.vue';
 
 export default {
-  components: { NavBar, Toast },
+  components: { NavBar, Toast, Footer },
 };
 </script>
 
@@ -70,8 +72,8 @@ html {
   background: hsl(170, 25%, 85%);
 }
 
-#app {
-  padding-bottom: 6rem;
+main {
+  min-height: 100vh;
 }
 
 .container {

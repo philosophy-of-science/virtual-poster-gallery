@@ -1,5 +1,5 @@
 <template>
-  <section class="container">
+  <main class="container">
     <div v-if="loading">Loading...</div>
     <article v-else>
       <header class="image-container" :class="{ expanded: expand }">
@@ -27,7 +27,7 @@
         <div class="abstract" v-html="poster.abstract"></div>
       </div>
     </article>
-  </section>
+  </main>
 </template>
 
 <script>

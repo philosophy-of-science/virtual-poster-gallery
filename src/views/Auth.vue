@@ -1,5 +1,5 @@
 <template>
-  <section class="container">
+  <main class="container">
     <div class="grid">
       <div class="left">
         <header v-show="type === 'signUp'">
@@ -146,7 +146,7 @@
         />
       </div>
     </div>
-  </section>
+  </main>
 </template>
 
 <script>

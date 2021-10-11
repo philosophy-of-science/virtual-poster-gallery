@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <main>
     <p>Email confirmed.</p>
-  </div>
+  </main>
 </template>
 
 <script>

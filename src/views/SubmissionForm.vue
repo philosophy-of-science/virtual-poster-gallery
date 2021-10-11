@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <main class="container">
     <h2>
       <span v-show="!poster">Submit</span
       ><span v-show="poster">Update</span> Your Poster
@@ -87,7 +87,7 @@
         />
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
