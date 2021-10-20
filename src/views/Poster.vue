@@ -12,6 +12,10 @@
             <v-icon name="compress-alt" scale="2" />
           </span>
         </button>
+        <p class="full-size">
+          <a :href="poster.image" :alt="poster.title" target="_blank">
+            <v-icon name="image" class="mr" /> See the full-size poster </a>
+        </p>
       </header>
       <div class="text-container">
         <div class="left">
@@ -193,5 +197,11 @@ button {
   to {
     opacity: 0;
   }
+}
+
+.full-size {
+  padding: 1rem .5rem;
+  font-size: .9rem;
+  text-align: center;
 }
 </style>

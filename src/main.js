@@ -12,6 +12,7 @@ import 'vue-awesome/icons/times';
 import 'vue-awesome/icons/edit';
 import 'vue-awesome/icons/bars';
 import 'vue-awesome/icons/compress-alt';
+import 'vue-awesome/icons/image';
 
 import App from './App.vue';
 import router from './router';
